@@ -1,0 +1,1780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- Favicon -->
+    <link
+        rel="icon"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230b0b0f'/%3E%3Cpath d='M25 72V28h12l26 27V28h12v44H63L37 45v27z' fill='white'/%3E%3C/svg%3E"
+    >
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="description"
+        content="Novyra — Building technology for real problems."
+    >
+
+    <title>Novyra — Building Technology for Real Problems</title>
+
+    <style>
+
+        /* =========================================
+           RESET
+        ========================================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #ffffff;
+            color: #111111;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button,
+        input,
+        textarea,
+        select {
+            font: inherit;
+        }
+
+
+        /* =========================================
+           VARIABLES
+        ========================================= */
+
+        :root {
+            --black: #0b0b0f;
+            --dark: #17171c;
+            --gray: #666666;
+            --light-gray: #f5f5f7;
+            --border: #e8e8ec;
+            --white: #ffffff;
+            --accent: #635bff;
+            --accent-light: #eeecff;
+        }
+
+
+        /* =========================================
+           NAVBAR
+        ========================================= */
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 76px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 7%;
+
+            background: rgba(255, 255, 255, 0.86);
+            backdrop-filter: blur(15px);
+
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            font-size: 14px;
+            font-weight: 600;
+            color: #444;
+            transition: 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--black);
+        }
+
+        .nav-project-btn {
+            padding: 11px 19px;
+            border-radius: 10px;
+            background: var(--black);
+            color: white !important;
+        }
+
+        .nav-project-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .menu-btn {
+            display: none;
+            border: none;
+            background: none;
+            font-size: 25px;
+            cursor: pointer;
+        }
+
+
+        /* =========================================
+           MAIN SITE
+        ========================================= */
+
+        #main-site {
+            display: block;
+        }
+
+
+        /* =========================================
+           HERO
+        ========================================= */
+
+        .hero {
+            min-height: 100vh;
+
+            display: flex;
+            align-items: center;
+
+            padding: 120px 7% 70px;
+
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            width: 55%;
+            position: relative;
+            z-index: 5;
+        }
+
+        .hero-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            padding: 8px 13px;
+
+            background: #f4f4f7;
+            border: 1px solid var(--border);
+
+            border-radius: 50px;
+
+            font-size: 13px;
+            font-weight: 600;
+
+            margin-bottom: 25px;
+        }
+
+        .hero-tag::before {
+            content: "";
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #27ae60;
+            box-shadow: 0 0 10px #27ae60;
+        }
+
+        .hero h1 {
+            font-size: clamp(52px, 7vw, 100px);
+            line-height: 0.98;
+            letter-spacing: -5px;
+            margin-bottom: 28px;
+        }
+
+        .hero h1 span {
+            color: var(--accent);
+        }
+
+        .hero p {
+            max-width: 590px;
+            font-size: 19px;
+            color: var(--gray);
+            margin-bottom: 35px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 14px 23px;
+
+            border-radius: 11px;
+
+            font-size: 14px;
+            font-weight: 700;
+
+            border: none;
+            cursor: pointer;
+
+            transition: 0.3s ease;
+        }
+
+        .btn-dark {
+            background: var(--black);
+            color: white;
+        }
+
+        .btn-dark:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .btn-light {
+            background: white;
+            border: 1px solid var(--border);
+            color: var(--black);
+        }
+
+        .btn-light:hover {
+            background: var(--light-gray);
+        }
+
+
+        /* =========================================
+           3D SCENE
+        ========================================= */
+
+        .hero-visual {
+            position: absolute;
+            right: 5%;
+            width: 43%;
+            height: 520px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            perspective: 1000px;
+        }
+
+        .scene {
+            width: 300px;
+            height: 300px;
+
+            position: relative;
+
+            transform-style: preserve-3d;
+
+            animation: sceneFloat 6s ease-in-out infinite;
+        }
+
+        .cube {
+            width: 190px;
+            height: 190px;
+
+            position: absolute;
+
+            left: 55px;
+            top: 55px;
+
+            transform-style: preserve-3d;
+
+            animation: cubeRotate 12s linear infinite;
+        }
+
+        .cube-face {
+            position: absolute;
+
+            width: 190px;
+            height: 190px;
+
+            border: 1px solid rgba(99, 91, 255, 0.35);
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(99, 91, 255, 0.13),
+                    rgba(255, 255, 255, 0.85)
+                );
+
+            backdrop-filter: blur(8px);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 50px;
+            font-weight: 800;
+
+            color: var(--accent);
+
+            box-shadow:
+                inset 0 0 30px rgba(99,91,255,0.05),
+                0 30px 80px rgba(99,91,255,0.12);
+        }
+
+        .front {
+            transform: translateZ(95px);
+        }
+
+        .back {
+            transform: rotateY(180deg) translateZ(95px);
+        }
+
+        .right {
+            transform: rotateY(90deg) translateZ(95px);
+        }
+
+        .left {
+            transform: rotateY(-90deg) translateZ(95px);
+        }
+
+        .top {
+            transform: rotateX(90deg) translateZ(95px);
+        }
+
+        .bottom {
+            transform: rotateX(-90deg) translateZ(95px);
+        }
+
+        .orb {
+            position: absolute;
+
+            border-radius: 50%;
+
+            filter: blur(0.2px);
+
+            transform-style: preserve-3d;
+        }
+
+        .orb-one {
+            width: 80px;
+            height: 80px;
+
+            background: linear-gradient(
+                135deg,
+                #635bff,
+                #aaa5ff
+            );
+
+            top: 0;
+            right: 10px;
+
+            animation: orbOne 7s ease-in-out infinite;
+        }
+
+        .orb-two {
+            width: 50px;
+            height: 50px;
+
+            background: #111111;
+
+            bottom: 20px;
+            left: 0;
+
+            animation: orbTwo 5s ease-in-out infinite;
+        }
+
+        .orb-three {
+            width: 30px;
+            height: 30px;
+
+            background: #c5c2ff;
+
+            bottom: 80px;
+            right: 0;
+
+            animation: orbThree 4s ease-in-out infinite;
+        }
+
+        @keyframes cubeRotate {
+            0% {
+                transform: rotateX(-20deg) rotateY(0deg);
+            }
+
+            100% {
+                transform: rotateX(340deg) rotateY(360deg);
+            }
+        }
+
+        @keyframes sceneFloat {
+            0%, 100% {
+                transform: translateY(0) rotateZ(0deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotateZ(2deg);
+            }
+        }
+
+        @keyframes orbOne {
+            0%, 100% {
+                transform: translate3d(0, 0, 80px);
+            }
+
+            50% {
+                transform: translate3d(-40px, 30px, 150px);
+            }
+        }
+
+        @keyframes orbTwo {
+            0%, 100% {
+                transform: translate3d(0, 0, 30px);
+            }
+
+            50% {
+                transform: translate3d(30px, -30px, 100px);
+            }
+        }
+
+        @keyframes orbThree {
+            0%, 100% {
+                transform: translate3d(0, 0, 50px);
+            }
+
+            50% {
+                transform: translate3d(-30px, -20px, 120px);
+            }
+        }
+
+
+        /* =========================================
+           SECTION
+        ========================================= */
+
+        section {
+            padding: 110px 7%;
+        }
+
+        .section-label {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent);
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+
+        .section-title {
+            font-size: clamp(35px, 5vw, 60px);
+            letter-spacing: -3px;
+            line-height: 1.05;
+            max-width: 700px;
+            margin-bottom: 60px;
+        }
+
+
+        /* =========================================
+           SERVICES
+        ========================================= */
+
+        .services {
+            background: #f8f8fa;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .service-card {
+            background: white;
+            border: 1px solid var(--border);
+
+            padding: 30px;
+
+            border-radius: 18px;
+
+            transition:
+                transform 0.35s ease,
+                box-shadow 0.35s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px) rotateX(2deg);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.08);
+        }
+
+        .service-number {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 50px;
+        }
+
+        .service-card h3 {
+            font-size: 22px;
+            margin-bottom: 12px;
+        }
+
+        .service-card p {
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+
+        /* =========================================
+           PROJECTS
+        ========================================= */
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .project-card {
+            border: 1px solid var(--border);
+            border-radius: 18px;
+
+            padding: 30px;
+
+            min-height: 280px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            background: white;
+
+            transition: 0.35s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.08);
+        }
+
+        .project-type {
+            font-size: 12px;
+            color: var(--accent);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .project-card h3 {
+            font-size: 28px;
+            margin-top: 20px;
+        }
+
+        .project-card p {
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+
+        /* =========================================
+           ABOUT
+        ========================================= */
+
+        .about {
+            background: var(--black);
+            color: white;
+
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+
+            gap: 80px;
+        }
+
+        .about .section-label {
+            color: #aaa5ff;
+        }
+
+        .about h2 {
+            font-size: clamp(40px, 5vw, 65px);
+            line-height: 1;
+            letter-spacing: -3px;
+        }
+
+        .about-text {
+            color: #b8b8be;
+            font-size: 17px;
+        }
+
+        .about-text p {
+            margin-bottom: 20px;
+        }
+
+
+        /* =========================================
+           CONTACT CTA
+        ========================================= */
+
+        .cta {
+            text-align: center;
+            padding: 130px 7%;
+        }
+
+        .cta h2 {
+            font-size: clamp(42px, 7vw, 85px);
+            letter-spacing: -5px;
+            line-height: 0.95;
+            margin-bottom: 30px;
+        }
+
+        .cta p {
+            color: var(--gray);
+            max-width: 550px;
+            margin: 0 auto 35px;
+        }
+
+
+        /* =========================================
+           PROJECT PAGE
+        ========================================= */
+
+        #project-page {
+            display: none;
+
+            min-height: 100vh;
+
+            padding: 120px 7% 80px;
+
+            background:
+                radial-gradient(
+                    circle at 90% 10%,
+                    #eeecff,
+                    transparent 30%
+                ),
+                white;
+        }
+
+        .project-page-header {
+            max-width: 850px;
+            margin-bottom: 60px;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            border: none;
+            background: #f3f3f5;
+
+            padding: 10px 16px;
+
+            border-radius: 9px;
+
+            cursor: pointer;
+
+            font-weight: 700;
+
+            margin-bottom: 40px;
+
+            transition: 0.3s;
+        }
+
+        .back-button:hover {
+            background: #e8e8eb;
+            transform: translateX(-3px);
+        }
+
+        .project-page-header h1 {
+            font-size: clamp(45px, 7vw, 85px);
+            letter-spacing: -4px;
+            line-height: 1;
+            margin-bottom: 20px;
+        }
+
+        .project-page-header p {
+            color: var(--gray);
+            font-size: 18px;
+            max-width: 650px;
+        }
+
+        .form-container {
+            max-width: 900px;
+
+            background: white;
+
+            border: 1px solid var(--border);
+
+            border-radius: 24px;
+
+            padding: 45px;
+
+            box-shadow: 0 30px 80px rgba(0,0,0,0.06);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+
+            border: 1px solid #dedee3;
+
+            border-radius: 10px;
+
+            padding: 14px 15px;
+
+            background: #fafafa;
+
+            outline: none;
+
+            transition: 0.25s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: var(--accent);
+            background: white;
+
+            box-shadow: 0 0 0 4px rgba(99,91,255,0.08);
+        }
+
+        .form-group textarea {
+            min-height: 170px;
+            resize: vertical;
+        }
+
+        .form-note {
+            font-size: 12px;
+            color: #888;
+
+            margin-top: 15px;
+        }
+
+        .submit-btn {
+            margin-top: 25px;
+            width: 100%;
+            padding: 16px;
+        }
+
+
+        /* =========================================
+           FOOTER
+        ========================================= */
+
+        footer {
+            border-top: 1px solid var(--border);
+
+            padding: 35px 7%;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            font-size: 13px;
+            color: #777;
+        }
+
+        .footer-logo {
+            color: var(--black);
+            font-weight: 800;
+        }
+
+
+        /* =========================================
+           MOBILE
+        ========================================= */
+
+        @media (max-width: 950px) {
+
+            .hero-content {
+                width: 100%;
+            }
+
+            .hero-visual {
+                opacity: 0.22;
+                width: 100%;
+                right: 0;
+            }
+
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about {
+                grid-template-columns: 1fr;
+            }
+        }
+
+
+        @media (max-width: 700px) {
+
+            nav {
+                padding: 0 5%;
+            }
+
+            .nav-links {
+                position: absolute;
+
+                top: 76px;
+                left: 0;
+
+                width: 100%;
+
+                display: none;
+                flex-direction: column;
+
+                padding: 25px;
+
+                background: white;
+
+                border-bottom: 1px solid var(--border);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .menu-btn {
+                display: block;
+            }
+
+            .hero {
+                padding-left: 5%;
+                padding-right: 5%;
+            }
+
+            .hero h1 {
+                letter-spacing: -3px;
+            }
+
+            .hero p {
+                font-size: 17px;
+            }
+
+            .hero-visual {
+                opacity: 0.12;
+            }
+
+            section {
+                padding: 80px 5%;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about {
+                padding-left: 5%;
+                padding-right: 5%;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+
+            .form-container {
+                padding: 25px;
+            }
+
+            #project-page {
+                padding-left: 5%;
+                padding-right: 5%;
+            }
+
+            footer {
+                padding: 30px 5%;
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+
+    <!-- =========================================
+         NAVIGATION
+    ========================================== -->
+
+    <nav>
+
+        <a href="#" class="logo" onclick="showMain()">
+            NOVYRA<span>.</span>
+        </a>
+
+        <div class="nav-links" id="navLinks">
+
+            <a href="#services" onclick="showMain()">Services</a>
+
+            <a href="#projects" onclick="showMain()">Projects</a>
+
+            <a href="#about" onclick="showMain()">About</a>
+
+            <a
+                href="#"
+                class="nav-project-btn"
+                onclick="showProjectPage(); return false;"
+            >
+                Start a Project
+            </a>
+
+        </div>
+
+        <button class="menu-btn" onclick="toggleMenu()">
+            ☰
+        </button>
+
+    </nav>
+
+
+    <!-- =========================================
+         MAIN WEBSITE
+    ========================================== -->
+
+    <main id="main-site">
+
+
+        <!-- HERO -->
+
+        <section class="hero">
+
+            <div class="hero-content">
+
+                <div class="hero-tag">
+                    Technology • AI • Software
+                </div>
+
+                <h1>
+                    Building technology
+                    <span>for real problems.</span>
+                </h1>
+
+                <p>
+                    Novyra is a founder-led technology studio building
+                    practical software, intelligent systems, mobile
+                    applications and cybersecurity solutions.
+                </p>
+
+                <div class="hero-buttons">
+
+                    <button
+                        class="btn btn-dark"
+                        onclick="showProjectPage()"
+                    >
+                        Start a Project →
+                    </button>
+
+                    <a
+                        href="#projects"
+                        class="btn btn-light"
+                    >
+                        Explore Projects
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- 3D OBJECT -->
+
+            <div class="hero-visual">
+
+                <div class="scene">
+
+                    <div class="cube">
+
+                        <div class="cube-face front">N</div>
+                        <div class="cube-face back">N</div>
+                        <div class="cube-face right">N</div>
+                        <div class="cube-face left">N</div>
+                        <div class="cube-face top">N</div>
+                        <div class="cube-face bottom">N</div>
+
+                    </div>
+
+                    <div class="orb orb-one"></div>
+                    <div class="orb orb-two"></div>
+                    <div class="orb orb-three"></div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- SERVICES -->
+
+        <section class="services" id="services">
+
+            <div class="section-label">
+                What we build
+            </div>
+
+            <h2 class="section-title">
+                Technology designed around the problem.
+            </h2>
+
+
+            <div class="services-grid">
+
+                <div class="service-card">
+
+                    <div class="service-number">01</div>
+
+                    <h3>Artificial Intelligence</h3>
+
+                    <p>
+                        AI systems, intelligent assistants,
+                        automation and machine-learning solutions.
+                    </p>
+
+                </div>
+
+
+                <div class="service-card">
+
+                    <div class="service-number">02</div>
+
+                    <h3>Web Applications</h3>
+
+                    <p>
+                        Modern web platforms designed for
+                        real businesses, organizations and users.
+                    </p>
+
+                </div>
+
+
+                <div class="service-card">
+
+                    <div class="service-number">03</div>
+
+                    <h3>Mobile Applications</h3>
+
+                    <p>
+                        Practical mobile experiences built
+                        around real-world use cases.
+                    </p>
+
+                </div>
+
+
+                <div class="service-card">
+
+                    <div class="service-number">04</div>
+
+                    <h3>Cybersecurity</h3>
+
+                    <p>
+                        Security-focused tools and systems
+                        designed to identify and reduce risks.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- PROJECTS -->
+
+        <section id="projects">
+
+            <div class="section-label">
+                Selected work
+            </div>
+
+            <h2 class="section-title">
+                Projects built to solve something.
+            </h2>
+
+
+            <div class="projects-grid">
+
+                <div class="project-card">
+
+                    <div>
+                        <div class="project-type">
+                            Artificial Intelligence
+                        </div>
+
+                        <h3>Science AI</h3>
+                    </div>
+
+                    <p>
+                        An educational AI concept designed
+                        to help students learn science,
+                        practice questions and study more effectively.
+                    </p>
+
+                </div>
+
+
+                <div class="project-card">
+
+                    <div>
+                        <div class="project-type">
+                            Artificial Intelligence
+                        </div>
+
+                        <h3>Finance AI</h3>
+                    </div>
+
+                    <p>
+                        An intelligent finance-focused
+                        software concept for helping users
+                        understand and work with financial information.
+                    </p>
+
+                </div>
+
+
+                <div class="project-card">
+
+                    <div>
+                        <div class="project-type">
+                            Cybersecurity
+                        </div>
+
+                        <h3>Phishing Detector</h3>
+                    </div>
+
+                    <p>
+                        A security tool concept designed
+                        to identify suspicious links and
+                        phishing-related threats.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ABOUT -->
+
+        <section class="about" id="about">
+
+            <div>
+
+                <div class="section-label">
+                    About Novyra
+                </div>
+
+                <h2>
+                    Small team.
+                    Big ideas.
+                </h2>
+
+            </div>
+
+
+            <div class="about-text">
+
+                <p>
+                    Novyra is a founder-led technology studio
+                    focused on building practical software and
+                    intelligent systems.
+                </p>
+
+                <p>
+                    We work across artificial intelligence,
+                    web development, mobile applications and
+                    cybersecurity.
+                </p>
+
+                <p>
+                    The goal is simple:
+                    understand the problem first,
+                    then build technology that actually helps.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- CTA -->
+
+        <section class="cta">
+
+            <div class="section-label">
+                Have an idea?
+            </div>
+
+            <h2>
+                Let's build it.
+            </h2>
+
+            <p>
+                Tell us what you're trying to solve.
+                We'll learn about the idea and figure out
+                the next step together.
+            </p>
+
+            <button
+                class="btn btn-dark"
+                onclick="showProjectPage()"
+            >
+                Start a Project →
+            </button>
+
+        </section>
+
+
+        <!-- FOOTER -->
+
+        <footer>
+
+            <div class="footer-logo">
+                NOVYRA.
+            </div>
+
+            <div>
+                © 2026 Novyra. All rights reserved.
+            </div>
+
+        </footer>
+
+    </main>
+
+
+<!-- =========================================
+     PROJECT REQUEST PAGE
+========================================== -->
+
+<main id="project-page">
+
+    <!-- PROJECT FORM VIEW -->
+
+    <div id="project-form-view">
+
+        <div class="project-page-header">
+
+            <button
+                class="back-button"
+                onclick="showMain()"
+            >
+                ← Back to Novyra
+            </button>
+
+            <div class="section-label">
+                Start a Project
+            </div>
+
+            <h1>
+                Tell us what you're building.
+            </h1>
+
+            <p>
+                Give us a few details about your project.
+                This helps us understand the problem,
+                the goal and what you need.
+            </p>
+
+        </div>
+
+
+        <div class="form-container">
+
+            <form
+                id="project-form"
+                action="https://formspree.io/f/xdekwnbn"
+                method="POST"
+            >
+
+                <div class="form-grid">
+
+
+                    <div class="form-group">
+
+                        <label for="name">
+                            Your Name *
+                        </label>
+
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            placeholder="Your full name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="email">
+                            Email *
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="you@example.com"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="organization">
+                            Organization
+                        </label>
+
+                        <input
+                            type="text"
+                            id="organization"
+                            name="organization"
+                            placeholder="Company, school, startup..."
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="project-name">
+                            Project Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="project-name"
+                            name="project_name"
+                            placeholder="What's the project called?"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="project-type">
+                            Project Type *
+                        </label>
+
+                        <select
+                            id="project-type"
+                            name="project_type"
+                            required
+                        >
+
+                            <option value="">
+                                Select a service
+                            </option>
+
+                            <option value="Artificial Intelligence">
+                                Artificial Intelligence
+                            </option>
+
+                            <option value="Web Application">
+                                Web Application
+                            </option>
+
+                            <option value="Mobile Application">
+                                Mobile Application
+                            </option>
+
+                            <option value="Cybersecurity">
+                                Cybersecurity
+                            </option>
+
+                            <option value="Custom Software">
+                                Custom Software
+                            </option>
+
+                            <option value="Other">
+                                Other
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="budget">
+                            Estimated Budget
+                        </label>
+
+                        <select
+                            id="budget"
+                            name="budget"
+                        >
+
+                            <option value="">
+                                Select if known
+                            </option>
+
+                            <option value="Under $100">
+                                Under $100
+                            </option>
+
+                            <option value="$100 - $500">
+                                $100 - $500
+                            </option>
+
+                            <option value="$500 - $1,000">
+                                $500 - $1,000
+                            </option>
+
+                            <option value="$1,000+">
+                                $1,000+
+                            </option>
+
+                            <option value="Not sure">
+                                Not sure yet
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="deadline">
+                            Desired Deadline
+                        </label>
+
+                        <input
+                            type="text"
+                            id="deadline"
+                            name="deadline"
+                            placeholder="e.g. December 2026"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group full">
+
+                        <label for="description">
+                            Tell us about the project *
+                        </label>
+
+                        <textarea
+                            id="description"
+                            name="description"
+                            placeholder="What problem are you trying to solve? What should the software do?"
+                            required
+                        ></textarea>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="btn btn-dark submit-btn"
+                    id="submit-button"
+                >
+                    Send Project Request →
+                </button>
+
+
+                <p class="form-note">
+                    This form is an initial project inquiry.
+                    Final scope, pricing, responsibilities and
+                    timelines will be agreed separately.
+                </p>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- SUCCESS VIEW -->
+
+    <div
+        id="success-view"
+        style="display: none;"
+    >
+
+        <div
+            class="form-container"
+            style="
+                max-width: 700px;
+                margin: 80px auto;
+                text-align: center;
+            "
+        >
+
+            <div
+                style="
+                    width: 70px;
+                    height: 70px;
+                    margin: 0 auto 25px;
+                    border-radius: 50%;
+                    background: #eeecff;
+                    color: #635bff;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 32px;
+                    font-weight: 800;
+                "
+            >
+                ✓
+            </div>
+
+
+            <div class="section-label">
+                Request Received
+            </div>
+
+
+            <h1
+                style="
+                    font-size: clamp(40px, 6vw, 65px);
+                    letter-spacing: -3px;
+                    line-height: 1;
+                    margin-bottom: 20px;
+                "
+            >
+                Let's build something.
+            </h1>
+
+
+            <p
+                style="
+                    color: #666;
+                    font-size: 17px;
+                    max-width: 550px;
+                    margin: 0 auto 30px;
+                "
+            >
+                Thanks for reaching out to Novyra.
+                We've received your project details and
+                will review them before getting back to you.
+            </p>
+
+
+            <button
+                class="btn btn-dark"
+                onclick="showMain()"
+            >
+                ← Back to Novyra
+            </button>
+
+        </div>
+
+    </div>
+
+</main>
+
+    <!-- =========================================
+         JAVASCRIPT
+    ========================================== -->
+
+    <script>
+
+        const mainSite = document.getElementById("main-site");
+        const projectPage = document.getElementById("project-page");
+        const navLinks = document.getElementById("navLinks");
+
+
+        /*
+         * Show the main Novyra website.
+         */
+
+        function showMain() {
+
+            mainSite.style.display = "block";
+            projectPage.style.display = "none";
+
+            navLinks.classList.remove("active");
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        }
+
+
+        /*
+         * Show the project request page.
+         */
+
+        function showProjectPage() {
+
+            mainSite.style.display = "none";
+            projectPage.style.display = "block";
+
+            navLinks.classList.remove("active");
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        }
+
+
+        /*
+         * Mobile navigation.
+         */
+
+        function toggleMenu() {
+
+            navLinks.classList.toggle("active");
+
+        }
+
+
+        /*
+         * Small mouse movement effect
+         * for the 3D hero scene.
+         */
+
+        const scene = document.querySelector(".scene");
+
+        document.addEventListener("mousemove", function(event) {
+
+            if (window.innerWidth < 900) {
+                return;
+            }
+
+            const x = (event.clientX / window.innerWidth - 0.5);
+            const y = (event.clientY / window.innerHeight - 0.5);
+
+            scene.style.transform =
+                `translate(${x * 15}px, ${y * 15}px)`;
+
+        });
+        const projectForm = document.getElementById("project-form");
+
+const projectFormView =
+    document.getElementById("project-form-view");
+
+const successView =
+    document.getElementById("success-view");
+
+const submitButton =
+    document.getElementById("submit-button");
+
+
+projectForm.addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    submitButton.disabled = true;
+
+    submitButton.textContent = "Sending...";
+
+
+    const formData = new FormData(projectForm);
+
+
+    try {
+
+        const response = await fetch(
+            projectForm.action,
+            {
+                method: "POST",
+                body: formData,
+                headers: {
+                    "Accept": "application/json"
+                }
+            }
+        );
+
+
+        if (response.ok) {
+
+            projectForm.reset();
+
+            projectFormView.style.display = "none";
+
+            successView.style.display = "block";
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+
+        } else {
+
+            alert(
+                "Something went wrong. Please try again."
+            );
+
+            submitButton.disabled = false;
+
+            submitButton.textContent =
+                "Send Project Request →";
+        }
+
+
+    } catch (error) {
+
+        alert(
+            "Unable to send the request. Please check your connection and try again."
+        );
+
+        submitButton.disabled = false;
+
+        submitButton.textContent =
+            "Send Project Request →";
+    }
+
+});
+
+    </script>
+
+</body>
+</html>
