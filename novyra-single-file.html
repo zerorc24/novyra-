@@ -1,0 +1,2741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Novyra — Engineering technology for what comes next.">
+<meta name="theme-color" content="#050505">
+<title>Novyra — Engineering Technology</title>
+
+<style>
+:root{
+    --black:#050505;
+    --white:#f5f5f5;
+    --gray:#8a8a8a;
+    --green:#b8ff35;
+    --green-bright:#d7ff70;
+    --line:rgba(255,255,255,.08)
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box
+}
+
+html{
+    scroll-behavior:smooth;
+    scroll-padding-top:78px
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:var(--black);
+    color:var(--white);
+    line-height:1.6;
+    overflow-x:hidden
+}
+
+::selection{
+    background:var(--green);
+    color:var(--black)
+}
+
+a{
+    color:inherit;
+    text-decoration:none
+}
+
+button,input,textarea,select{
+    font:inherit
+}
+
+:focus-visible{
+    outline:2px solid var(--green);
+    outline-offset:3px
+}
+
+/* scroll progress */
+.progress{
+    position:fixed;
+    top:0;
+    left:0;
+    height:3px;
+    width:0;
+    background:linear-gradient(90deg,var(--green-bright),var(--green));
+    box-shadow:0 0 14px var(--green);
+    z-index:1100
+}
+
+/* nav */
+nav{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:78px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 7%;
+    background:rgba(5,5,5,.78);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid rgba(255,255,255,.06);
+    z-index:1000
+}
+
+.logo{
+    font-size:23px;
+    font-weight:900;
+    letter-spacing:-1.5px
+}
+
+.logo span{
+    color:var(--green)
+}
+
+.nav-links{
+    display:flex;
+    align-items:center;
+    gap:34px
+}
+
+.nav-links a{
+    position:relative;
+    color:#aaa;
+    font-size:13px;
+    font-weight:600;
+    transition:color .3s
+}
+
+.nav-links a:hover,
+.nav-links a.current{
+    color:var(--white)
+}
+
+.nav-links a:not(.nav-project-btn)::after{
+    content:"";
+    position:absolute;
+    left:50%;
+    bottom:-8px;
+    width:0;
+    height:2px;
+    background:var(--green);
+    transform:translateX(-50%);
+    transition:width .35s cubic-bezier(.16,1,.3,1)
+}
+
+.nav-links a:not(.nav-project-btn):hover::after,
+.nav-links a.current::after{
+    width:100%
+}
+
+.nav-project-btn{
+    padding:11px 19px;
+    border:1px solid var(--green);
+    border-radius:8px;
+    color:var(--green)!important;
+    transition:background .3s,color .3s,transform .3s
+}
+
+.nav-project-btn:hover{
+    background:var(--green);
+    color:var(--black)!important;
+    transform:translateY(-2px)
+}
+
+.menu-btn{
+    display:none;
+    border:none;
+    background:none;
+    color:var(--white);
+    font-size:25px;
+    cursor:pointer
+}
+
+/* hero */
+.hero{
+    min-height:100vh;
+    position:relative;
+    display:flex;
+    align-items:center;
+    padding:130px 7% 80px;
+    overflow:hidden;
+    background:
+        radial-gradient(
+            circle at 75% 45%,
+            rgba(184,255,53,.07),
+            transparent 30%
+        )
+}
+
+.hero::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background-image:
+        linear-gradient(
+            rgba(184,255,53,.035) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(184,255,53,.035) 1px,
+            transparent 1px
+        );
+    background-size:70px 70px;
+    mask-image:linear-gradient(to bottom,#000,transparent);
+    animation:gridMove 18s linear infinite;
+    pointer-events:none
+}
+
+@keyframes gridMove{
+    to{
+        background-position:70px 70px
+    }
+}
+
+.hero-content{
+    width:58%;
+    position:relative;
+    z-index:5
+}
+
+.hero-tag{
+    display:inline-flex;
+    align-items:center;
+    gap:9px;
+    padding:8px 13px;
+    border:1px solid rgba(184,255,53,.22);
+    border-radius:50px;
+    background:rgba(184,255,53,.05);
+    color:var(--green);
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:.04em;
+    margin-bottom:28px;
+    animation:fadeUp 1s cubic-bezier(.16,1,.3,1) .15s both
+}
+
+.hero-tag::before{
+    content:"";
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:var(--green);
+    box-shadow:0 0 15px var(--green);
+    animation:pulse 2s ease-in-out infinite
+}
+
+@keyframes pulse{
+    0%,100%{
+        opacity:.5;
+        transform:scale(.8)
+    }
+
+    50%{
+        opacity:1;
+        transform:scale(1.2)
+    }
+}
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(28px)
+    }
+
+    to{
+        opacity:1;
+        transform:none
+    }
+}
+
+.hero h1{
+    font-size:clamp(55px,7vw,105px);
+    line-height:.94;
+    letter-spacing:-6px;
+    max-width:950px;
+    margin-bottom:30px
+}
+
+.hero h1 .accent{
+    display:block;
+    color:var(--green);
+    text-shadow:0 0 50px rgba(184,255,53,.13)
+}
+
+.w{
+    display:inline-block;
+    overflow:hidden;
+    vertical-align:top;
+    padding-bottom:.08em
+}
+
+.w>i{
+    display:inline-block;
+    font-style:normal;
+    transform:translateY(110%);
+    animation:wordUp .9s cubic-bezier(.16,1,.3,1) forwards
+}
+
+@keyframes wordUp{
+    to{
+        transform:none
+    }
+}
+
+.hero-description{
+    max-width:650px;
+    color:var(--gray);
+    font-size:18px;
+    margin-bottom:38px;
+    animation:fadeUp 1s cubic-bezier(.16,1,.3,1) .9s both
+}
+
+.hero-buttons{
+    display:flex;
+    gap:13px;
+    flex-wrap:wrap;
+    animation:fadeUp 1s cubic-bezier(.16,1,.3,1) 1.05s both
+}
+
+.scroll-hint{
+    position:absolute;
+    left:7%;
+    bottom:34px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    color:#666;
+    font-size:11px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    animation:fadeUp 1s ease 1.6s both
+}
+
+.scroll-hint::before{
+    content:"";
+    width:1px;
+    height:38px;
+    background:linear-gradient(var(--green),transparent);
+    animation:drip 2s ease-in-out infinite
+}
+
+@keyframes drip{
+    0%{
+        transform:scaleY(0);
+        transform-origin:top
+    }
+
+    50%{
+        transform:scaleY(1);
+        transform-origin:top
+    }
+
+    51%{
+        transform-origin:bottom
+    }
+
+    100%{
+        transform:scaleY(0);
+        transform-origin:bottom
+    }
+}
+
+/* buttons */
+.btn{
+    position:relative;
+    overflow:hidden;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:14px 23px;
+    border-radius:9px;
+    border:none;
+    font-size:13px;
+    font-weight:800;
+    cursor:pointer;
+    transition:transform .3s,box-shadow .3s
+}
+
+.btn-dark{
+    background:var(--green);
+    color:var(--black)
+}
+
+.btn-dark::after{
+    content:"";
+    position:absolute;
+    top:0;
+    left:-80%;
+    width:50%;
+    height:100%;
+    background:linear-gradient(
+        100deg,
+        transparent,
+        rgba(255,255,255,.55),
+        transparent
+    );
+    transform:skewX(-20deg)
+}
+
+.btn-dark:hover::after{
+    animation:shine .8s ease
+}
+
+@keyframes shine{
+    to{
+        left:140%
+    }
+}
+
+.btn-dark:hover{
+    transform:translateY(-4px);
+    box-shadow:0 15px 45px rgba(184,255,53,.22)
+}
+
+.btn-light{
+    background:rgba(255,255,255,.035);
+    border:1px solid rgba(255,255,255,.12);
+    color:var(--white)
+}
+
+.btn-light:hover{
+    border-color:rgba(184,255,53,.4);
+    color:var(--green);
+    transform:translateY(-4px)
+}
+
+/* 3d */
+.hero-visual{
+    position:absolute;
+    right:3%;
+    width:44%;
+    height:550px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    perspective:1200px;
+    z-index:2
+}
+
+.scene{
+    width:310px;
+    height:310px;
+    position:relative;
+    transform-style:preserve-3d;
+    animation:sceneFloat 7s ease-in-out infinite
+}
+
+@keyframes sceneFloat{
+    0%,100%{
+        transform:translateY(0)
+    }
+
+    50%{
+        transform:translateY(-22px)
+    }
+}
+
+.cube{
+    width:190px;
+    height:190px;
+    position:absolute;
+    top:60px;
+    left:60px;
+    transform-style:preserve-3d;
+    animation:cubeRotate 13s linear infinite
+}
+
+@keyframes cubeRotate{
+    from{
+        transform:rotateX(-20deg) rotateY(0)
+    }
+
+    to{
+        transform:rotateX(340deg) rotateY(360deg)
+    }
+}
+
+.cube-face{
+    position:absolute;
+    width:190px;
+    height:190px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:50px;
+    font-weight:900;
+    color:var(--green);
+    background:rgba(184,255,53,.025);
+    border:1px solid rgba(184,255,53,.4);
+    box-shadow:
+        inset 0 0 35px rgba(184,255,53,.04),
+        0 0 40px rgba(184,255,53,.08)
+}
+
+.front{
+    transform:translateZ(95px)
+}
+
+.back{
+    transform:rotateY(180deg) translateZ(95px)
+}
+
+.right{
+    transform:rotateY(90deg) translateZ(95px)
+}
+
+.left{
+    transform:rotateY(-90deg) translateZ(95px)
+}
+
+.top{
+    transform:rotateX(90deg) translateZ(95px)
+}
+
+.bottom{
+    transform:rotateX(-90deg) translateZ(95px)
+}
+
+.ring{
+    position:absolute;
+    inset:-30px;
+    border:1px dashed rgba(184,255,53,.25);
+    border-radius:50%;
+    animation:spin 24s linear infinite
+}
+
+@keyframes spin{
+    to{
+        transform:rotate(360deg)
+    }
+}
+
+.orb{
+    position:absolute;
+    border-radius:50%;
+    transform-style:preserve-3d
+}
+
+.orb-one{
+    width:82px;
+    height:82px;
+    top:5px;
+    right:10px;
+    background:var(--green);
+    box-shadow:0 0 80px rgba(184,255,53,.45);
+    animation:orbOne 7s ease-in-out infinite
+}
+
+.orb-two{
+    width:48px;
+    height:48px;
+    bottom:25px;
+    left:5px;
+    background:#222;
+    border:1px solid rgba(184,255,53,.3);
+    box-shadow:0 0 35px rgba(184,255,53,.1);
+    animation:orbTwo 5s ease-in-out infinite
+}
+
+.orb-three{
+    width:27px;
+    height:27px;
+    bottom:80px;
+    right:0;
+    background:var(--green-bright);
+    box-shadow:0 0 30px rgba(184,255,53,.4);
+    animation:orbThree 4s ease-in-out infinite
+}
+
+@keyframes orbOne{
+    0%,100%{
+        transform:translate3d(0,0,80px)
+    }
+
+    50%{
+        transform:translate3d(-40px,30px,150px)
+    }
+}
+
+@keyframes orbTwo{
+    0%,100%{
+        transform:translate3d(0,0,30px)
+    }
+
+    50%{
+        transform:translate3d(30px,-30px,100px)
+    }
+}
+
+@keyframes orbThree{
+    0%,100%{
+        transform:translate3d(0,0,50px)
+    }
+
+    50%{
+        transform:translate3d(-30px,-20px,120px)
+    }
+}
+
+/* ticker divider */
+.ticker{
+    overflow:hidden;
+    border-top:1px solid rgba(184,255,53,.25);
+    border-bottom:1px solid rgba(184,255,53,.25);
+    background:#070707;
+    padding:18px 0;
+    white-space:nowrap
+}
+
+.ticker-track{
+    display:inline-flex;
+    animation:ticker 34s linear infinite
+}
+
+.ticker:hover .ticker-track{
+    animation-play-state:paused
+}
+
+.ticker span{
+    font-size:15px;
+    font-weight:800;
+    letter-spacing:3px;
+    text-transform:uppercase;
+    color:#bdbdbd;
+    padding:0 26px
+}
+
+.ticker span::after{
+    content:"/";
+    margin-left:52px;
+    color:var(--green)
+}
+
+@keyframes ticker{
+    to{
+        transform:translateX(-50%)
+    }
+}
+
+/* sections + clear divisions */
+section{
+    position:relative;
+    padding:125px 7%
+}
+
+section[data-part]::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:7%;
+    right:7%;
+    height:1px;
+    background:linear-gradient(
+        90deg,
+        var(--green),
+        rgba(184,255,53,.1) 70%,
+        transparent
+    );
+    transform:scaleX(0);
+    transform-origin:left;
+    transition:transform 1.4s cubic-bezier(.16,1,.3,1)
+}
+
+section.line-on::before{
+    transform:scaleX(1)
+}
+
+.sec-head{
+    display:flex;
+    align-items:center;
+    gap:18px;
+    margin-bottom:34px;
+    grid-column:1/-1
+}
+
+.sec-idx{
+    display:grid;
+    place-items:center;
+    min-width:46px;
+    height:46px;
+    border:1px solid rgba(184,255,53,.4);
+    border-radius:12px;
+    color:var(--green);
+    font-size:14px;
+    font-weight:900;
+    background:rgba(184,255,53,.05)
+}
+
+.sec-name{
+    font-size:12px;
+    font-weight:800;
+    letter-spacing:3px;
+    text-transform:uppercase;
+    color:var(--green)
+}
+
+.sec-rule{
+    flex:1;
+    height:1px;
+    background:linear-gradient(
+        90deg,
+        rgba(184,255,53,.35),
+        transparent
+    )
+}
+
+.sec-count{
+    font-size:12px;
+    color:#555;
+    font-weight:800;
+    letter-spacing:2px
+}
+
+.section-label{
+    color:var(--green);
+    font-size:11px;
+    font-weight:800;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    margin-bottom:18px
+}
+
+.section-title{
+    max-width:850px;
+    font-size:clamp(43px,5.5vw,76px);
+    line-height:.95;
+    letter-spacing:-4px;
+    margin-bottom:55px
+}
+
+/* services */
+.services{
+    background:#080808
+}
+
+.services-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px
+}
+
+.service-card,
+.project-card{
+    --mx:50%;
+    --my:50%;
+    position:relative;
+    overflow:hidden;
+    padding:30px;
+    border:1px solid rgba(255,255,255,.07);
+    border-radius:15px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    transition:
+        transform .55s cubic-bezier(.16,1,.3,1),
+        border-color .4s,
+        box-shadow .4s
+}
+
+.service-card{
+    min-height:310px;
+    background:
+        radial-gradient(
+            260px circle at var(--mx) var(--my),
+            rgba(184,255,53,.1),
+            transparent 65%
+        ),
+        linear-gradient(145deg,#111,#0a0a0a)
+}
+
+.project-card{
+    min-height:300px;
+    background:
+        radial-gradient(
+            260px circle at var(--mx) var(--my),
+            rgba(184,255,53,.1),
+            transparent 65%
+        ),
+        #0c0c0c
+}
+
+.service-card:hover{
+    transform:translateY(-13px) scale(1.015);
+    border-color:rgba(184,255,53,.3);
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.5),
+        0 0 35px rgba(184,255,53,.05)
+}
+
+.project-card:hover{
+    transform:translateY(-14px);
+    border-color:rgba(184,255,53,.35);
+    box-shadow:0 30px 80px rgba(0,0,0,.55)
+}
+
+.service-number{
+    color:#555;
+    font-size:12px;
+    font-weight:800
+}
+
+.service-card h3{
+    font-size:25px;
+    line-height:1.05;
+    letter-spacing:-1px;
+    margin-bottom:15px
+}
+
+.service-card p,
+.project-card p{
+    color:var(--gray);
+    font-size:14px
+}
+
+.service-card::after{
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:0;
+    height:3px;
+    width:0;
+    background:var(--green);
+    transition:width .6s cubic-bezier(.16,1,.3,1)
+}
+
+.service-card:hover::after{
+    width:100%
+}
+
+/* projects */
+.projects-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px
+}
+
+.project-card::after{
+    content:"";
+    position:absolute;
+    width:300px;
+    height:300px;
+    right:-180px;
+    bottom:-180px;
+    background:
+        radial-gradient(
+            circle,
+            rgba(184,255,53,.13),
+            transparent 70%
+        );
+    transition:transform .8s
+}
+
+.project-card:hover::after{
+    transform:scale(1.5)
+}
+
+.project-type{
+    color:var(--green);
+    font-size:10px;
+    font-weight:800;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    margin-bottom:13px
+}
+
+.project-card h3{
+    font-size:31px;
+    letter-spacing:-1.5px
+}
+
+.project-card p{
+    position:relative;
+    z-index:2
+}
+
+/* process */
+.process{
+    background:#0a0a0a
+}
+
+.steps{
+    position:relative;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px
+}
+
+.steps::before{
+    content:"";
+    position:absolute;
+    top:22px;
+    left:22px;
+    right:22px;
+    height:2px;
+    background:rgba(255,255,255,.08)
+}
+
+.steps::after{
+    content:"";
+    position:absolute;
+    top:22px;
+    left:22px;
+    height:2px;
+    width:0;
+    background:var(--green);
+    box-shadow:0 0 14px var(--green);
+    transition:width 2.2s cubic-bezier(.65,0,.35,1) .3s
+}
+
+.steps.run::after{
+    width:calc(100% - 44px)
+}
+
+.step{
+    position:relative;
+    z-index:2;
+    padding-top:0
+}
+
+.dot{
+    display:grid;
+    place-items:center;
+    width:46px;
+    height:46px;
+    border-radius:50%;
+    background:var(--black);
+    border:2px solid rgba(255,255,255,.15);
+    color:#777;
+    font-weight:900;
+    margin-bottom:24px;
+    transition:all .5s
+}
+
+.steps.run .dot{
+    border-color:var(--green);
+    color:var(--green);
+    box-shadow:0 0 22px rgba(184,255,53,.3)
+}
+
+.steps.run .step:nth-child(2) .dot{
+    transition-delay:.7s
+}
+
+.steps.run .step:nth-child(3) .dot{
+    transition-delay:1.4s
+}
+
+.steps.run .step:nth-child(4) .dot{
+    transition-delay:2.1s
+}
+
+.step h3{
+    font-size:22px;
+    letter-spacing:-.5px;
+    margin-bottom:8px
+}
+
+.step p{
+    color:var(--gray);
+    font-size:14px;
+    max-width:250px
+}
+
+/* about */
+.about{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:0 100px;
+    background:#090909
+}
+
+.about h2{
+    font-size:clamp(50px,6vw,90px);
+    line-height:.9;
+    letter-spacing:-5px
+}
+
+.about-text{
+    max-width:600px
+}
+
+.about-text p{
+    color:var(--gray);
+    font-size:17px;
+    margin-bottom:25px
+}
+
+.about-text p:first-child{
+    color:var(--white);
+    font-size:20px
+}
+
+/* CTA - BLACK VERSION */
+.cta{
+    overflow:hidden;
+    text-align:center;
+    background:#050505;
+    color:var(--white);
+    border-top:1px solid rgba(184,255,53,.18);
+    border-bottom:1px solid rgba(184,255,53,.18)
+}
+
+.cta::before{
+    content:"";
+    position:absolute;
+    width:500px;
+    height:500px;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    background:
+        radial-gradient(
+            circle,
+            rgba(184,255,53,.08),
+            transparent 70%
+        );
+    animation:ctaGlow 6s ease-in-out infinite
+}
+
+@keyframes ctaGlow{
+    0%,100%{
+        transform:translate(-50%,-50%) scale(.9);
+        opacity:.4
+    }
+
+    50%{
+        transform:translate(-50%,-50%) scale(1.2);
+        opacity:1
+    }
+}
+
+.cta .section-label{
+    color:var(--green)
+}
+
+.cta h2{
+    position:relative;
+    z-index:2;
+    font-size:clamp(55px,8vw,105px);
+    line-height:.88;
+    letter-spacing:-6px;
+    margin-bottom:30px
+}
+
+.cta p{
+    position:relative;
+    z-index:2;
+    max-width:600px;
+    margin:0 auto 35px;
+    color:var(--gray);
+    font-size:17px
+}
+
+.cta .btn-dark{
+    position:relative;
+    z-index:3;
+    background:var(--green);
+    color:var(--black)
+}
+
+/* footer */
+footer{
+    padding:35px 7%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:#030303;
+    color:#666;
+    font-size:12px;
+    border-top:1px solid rgba(255,255,255,.06)
+}
+
+.footer-logo{
+    color:var(--white);
+    font-size:20px;
+    font-weight:900
+}
+
+.footer-logo::after{
+    content:".";
+    color:var(--green)
+}
+
+/* project page */
+#project-page{
+    display:none;
+    min-height:100vh;
+    padding:140px 7% 80px;
+    background:#080808
+}
+
+#project-page.show{
+    animation:pageIn .7s cubic-bezier(.16,1,.3,1) both
+}
+
+@keyframes pageIn{
+    from{
+        opacity:0;
+        transform:translateY(30px)
+    }
+
+    to{
+        opacity:1;
+        transform:none
+    }
+}
+
+.project-page-header{
+    max-width:850px;
+    margin-bottom:60px
+}
+
+.back-button{
+    background:none;
+    border:none;
+    color:#777;
+    cursor:pointer;
+    font-size:13px;
+    font-weight:700;
+    margin-bottom:45px;
+    transition:color .3s
+}
+
+.back-button:hover{
+    color:var(--green)
+}
+
+.project-page-header h1{
+    font-size:clamp(50px,7vw,90px);
+    line-height:.92;
+    letter-spacing:-5px;
+    margin-bottom:25px
+}
+
+.project-page-header p{
+    color:var(--gray);
+    font-size:18px;
+    max-width:620px
+}
+
+.form-container{
+    max-width:1000px;
+    margin:0 auto;
+    padding:42px;
+    background:#0d0d0d;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:18px;
+    box-shadow:0 30px 100px rgba(0,0,0,.5)
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:25px
+}
+
+.form-group{
+    display:flex;
+    flex-direction:column;
+    gap:8px
+}
+
+.form-group.full{
+    grid-column:1/-1
+}
+
+.form-group label{
+    color:#ccc;
+    font-size:12px;
+    font-weight:800
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+    width:100%;
+    padding:14px 15px;
+    color:var(--white);
+    background:#070707;
+    border:1px solid rgba(255,255,255,.09);
+    border-radius:8px;
+    outline:none;
+    transition:
+        border-color .3s,
+        box-shadow .3s,
+        background .3s
+}
+
+.form-group select option{
+    background:#0d0d0d;
+    color:#fff
+}
+
+.form-group textarea{
+    min-height:160px;
+    resize:vertical
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{
+    border-color:var(--green);
+    box-shadow:0 0 0 3px rgba(184,255,53,.08);
+    background:#0a0a0a
+}
+
+.submit-btn{
+    margin-top:30px
+}
+
+.form-note{
+    margin-top:18px;
+    color:#666;
+    font-size:11px
+}
+
+#success-view.show{
+    animation:pageIn .8s cubic-bezier(.16,1,.3,1) both
+}
+
+/* reveal */
+.reveal,
+.service-card,
+.project-card,
+.about-text,
+.cta .wrap-in,
+.section-title,
+.sec-head,
+.step{
+    opacity:0;
+    transform:translateY(45px);
+    transition:
+        opacity .9s cubic-bezier(.16,1,.3,1),
+        transform .9s cubic-bezier(.16,1,.3,1)
+}
+
+.visible{
+    opacity:1!important;
+    transform:none!important
+}
+
+.service-card:nth-child(2),
+.project-card:nth-child(2),
+.step:nth-child(2){
+    transition-delay:.15s
+}
+
+.service-card:nth-child(3),
+.project-card:nth-child(3),
+.step:nth-child(3){
+    transition-delay:.25s
+}
+
+.service-card:nth-child(4),
+.step:nth-child(4){
+    transition-delay:.35s
+}
+
+/* cursor glow */
+.cursor-glow{
+    position:fixed;
+    width:280px;
+    height:280px;
+    border-radius:50%;
+    pointer-events:none;
+    background:
+        radial-gradient(
+            circle,
+            rgba(184,255,53,.08),
+            transparent 70%
+        );
+    transform:translate(-50%,-50%);
+    z-index:999
+}
+
+@media (max-width:1000px){
+
+    .hero-content{
+        width:70%
+    }
+
+    .hero-visual{
+        opacity:.35;
+        right:-10%
+    }
+
+    .services-grid,
+    .projects-grid{
+        grid-template-columns:repeat(2,1fr)
+    }
+
+    .steps{
+        grid-template-columns:repeat(2,1fr);
+        row-gap:40px
+    }
+
+    .steps::before,
+    .steps::after{
+        display:none
+    }
+}
+
+@media (max-width:768px){
+
+    nav{
+        padding:0 5%
+    }
+
+    .nav-links{
+        position:absolute;
+        top:78px;
+        left:0;
+        width:100%;
+        padding:25px;
+        background:rgba(5,5,5,.98);
+        display:none;
+        flex-direction:column;
+        align-items:flex-start;
+        border-bottom:1px solid rgba(255,255,255,.07)
+    }
+
+    .nav-links.active{
+        display:flex
+    }
+
+    .menu-btn{
+        display:block
+    }
+
+    .hero{
+        padding:125px 5% 80px
+    }
+
+    .hero-content{
+        width:100%
+    }
+
+    .hero h1{
+        font-size:clamp(48px,13vw,75px);
+        letter-spacing:-4px
+    }
+
+    .hero-visual{
+        width:100%;
+        right:0;
+        opacity:.18
+    }
+
+    .scroll-hint{
+        display:none
+    }
+
+    section{
+        padding:90px 5%
+    }
+
+    section[data-part]::before{
+        left:5%;
+        right:5%
+    }
+
+    .services-grid,
+    .projects-grid,
+    .steps{
+        grid-template-columns:1fr
+    }
+
+    .about{
+        grid-template-columns:1fr;
+        gap:50px
+    }
+
+    .form-grid{
+        grid-template-columns:1fr
+    }
+
+    .form-group.full{
+        grid-column:auto
+    }
+
+    .form-container{
+        padding:25px
+    }
+
+    footer{
+        flex-direction:column;
+        gap:15px;
+        text-align:center
+    }
+
+    .cursor-glow{
+        display:none
+    }
+
+    .sec-count{
+        display:none
+    }
+}
+
+@media (prefers-reduced-motion:reduce){
+
+    *,
+    *::before,
+    *::after{
+        animation-duration:.01ms!important;
+        animation-iteration-count:1!important;
+        transition-duration:.01ms!important
+    }
+
+    .reveal,
+    .service-card,
+    .project-card,
+    .about-text,
+    .cta .wrap-in,
+    .section-title,
+    .sec-head,
+    .step,
+    .w>i{
+        opacity:1;
+        transform:none
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="progress" id="progress"></div>
+
+<nav>
+
+    <a href="#" class="logo" onclick="showMain()">
+        NOVYRA<span>.</span>
+    </a>
+
+    <div class="nav-links" id="navLinks">
+
+        <a href="#services" onclick="showMain()">Capabilities</a>
+
+        <a href="#projects" onclick="showMain()">Products</a>
+
+        <a href="#process" onclick="showMain()">Process</a>
+
+        <a href="#about" onclick="showMain()">About</a>
+
+        <a href="#"
+           class="nav-project-btn"
+           onclick="showProjectPage();return false;">
+            Start a Project
+        </a>
+
+    </div>
+
+    <button
+        class="menu-btn"
+        onclick="toggleMenu()"
+        aria-label="Open navigation">
+        ☰
+    </button>
+
+</nav>
+
+<main id="main-site">
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <div class="hero-tag">
+                AI • SOFTWARE • SECURITY • INNOVATION
+            </div>
+
+            <h1 id="hero-title">
+                Engineering technology
+                <span class="accent">for what comes next.</span>
+            </h1>
+
+            <p class="hero-description">
+                Novyra is an independent technology company building
+                intelligent software, AI-powered systems, secure digital
+                products and technology designed around real-world needs.
+            </p>
+
+            <div class="hero-buttons">
+
+                <button
+                    class="btn btn-dark"
+                    onclick="showProjectPage()">
+                    Start a Project →
+                </button>
+
+                <a
+                    href="#projects"
+                    class="btn btn-light">
+                    Explore Products
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="hero-visual">
+
+            <div class="scene">
+
+                <div class="ring"></div>
+
+                <div class="cube">
+
+                    <div class="cube-face front">N</div>
+                    <div class="cube-face back">N</div>
+
+                    <div class="cube-face right">AI</div>
+                    <div class="cube-face left">AI</div>
+
+                    <div class="cube-face top">N</div>
+                    <div class="cube-face bottom">N</div>
+
+                </div>
+
+                <div class="orb orb-one"></div>
+                <div class="orb orb-two"></div>
+                <div class="orb orb-three"></div>
+
+            </div>
+
+        </div>
+
+        <div class="scroll-hint">
+            Scroll
+        </div>
+
+    </section>
+
+    <div class="ticker" aria-hidden="true">
+
+        <div class="ticker-track" id="ticker">
+
+            <span>Artificial Intelligence</span>
+            <span>LLM Integration</span>
+            <span>Web Platforms</span>
+            <span>Mobile Apps</span>
+            <span>Cybersecurity</span>
+            <span>Fintech</span>
+            <span>EdTech</span>
+
+        </div>
+
+    </div>
+
+    <section
+        class="services"
+        id="services"
+        data-part>
+
+        <div class="sec-head">
+
+            <span class="sec-idx">01</span>
+
+            <span class="sec-name">
+                Capabilities
+            </span>
+
+            <span class="sec-rule"></span>
+
+            <span class="sec-count">
+                01 / 04
+            </span>
+
+        </div>
+
+        <h2 class="section-title">
+            Technology built around the problem.
+        </h2>
+
+        <div class="services-grid">
+
+            <div class="service-card">
+
+                <div class="service-number">
+                    01
+                </div>
+
+                <div>
+
+                    <h3>
+                        Artificial Intelligence
+                    </h3>
+
+                    <p>
+                        AI-powered products, intelligent workflows,
+                        LLM integrations and practical automation.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="service-card">
+
+                <div class="service-number">
+                    02
+                </div>
+
+                <div>
+
+                    <h3>
+                        Software &amp; Web Platforms
+                    </h3>
+
+                    <p>
+                        Modern websites, web applications, dashboards,
+                        APIs and scalable digital platforms.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="service-card">
+
+                <div class="service-number">
+                    03
+                </div>
+
+                <div>
+
+                    <h3>
+                        Mobile Applications
+                    </h3>
+
+                    <p>
+                        Mobile products designed to turn useful ideas
+                        into accessible experiences.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="service-card">
+
+                <div class="service-number">
+                    04
+                </div>
+
+                <div>
+
+                    <h3>
+                        Cybersecurity
+                    </h3>
+
+                    <p>
+                        Security reviews, threat analysis and technology
+                        designed with security in mind.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section
+        class="projects"
+        id="projects"
+        data-part>
+
+        <div class="sec-head">
+
+            <span class="sec-idx">02</span>
+
+            <span class="sec-name">
+                Products
+            </span>
+
+            <span class="sec-rule"></span>
+
+            <span class="sec-count">
+                02 / 04
+            </span>
+
+        </div>
+
+        <h2 class="section-title">
+            Ideas becoming technology.
+        </h2>
+
+        <div class="projects-grid">
+
+            <div class="project-card">
+
+                <div>
+
+                    <div class="project-type">
+                        Artificial Intelligence
+                    </div>
+
+                    <h3>
+                        Science AI
+                    </h3>
+
+                </div>
+
+                <p>
+                    An intelligent science tutor designed to help
+                    students learn, practice questions and explore
+                    scientific concepts.
+                </p>
+
+            </div>
+
+            <div class="project-card">
+
+                <div>
+
+                    <div class="project-type">
+                        EdTech
+                    </div>
+
+                    <h3>
+                        Kwiga-Sim
+                    </h3>
+
+                </div>
+
+                <p>
+                    An offline virtual laboratory designed to make
+                    Biology, Chemistry and Physics experiments
+                    more accessible.
+                </p>
+
+            </div>
+
+            <div class="project-card">
+
+                <div>
+
+                    <div class="project-type">
+                        Cybersecurity
+                    </div>
+
+                    <h3>
+                        Phishing Detector
+                    </h3>
+
+                </div>
+
+                <p>
+                    A security tool concept designed to identify
+                    suspicious links and phishing-related threats.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section
+        class="process"
+        id="process"
+        data-part>
+
+        <div class="sec-head">
+
+            <span class="sec-idx">03</span>
+
+            <span class="sec-name">
+                Process
+            </span>
+
+            <span class="sec-rule"></span>
+
+            <span class="sec-count">
+                03 / 04
+            </span>
+
+        </div>
+
+        <h2 class="section-title">
+            From idea to launch.
+        </h2>
+
+        <div class="steps" id="steps">
+
+            <div class="step">
+
+                <div class="dot">
+                    1
+                </div>
+
+                <h3>
+                    Share the problem
+                </h3>
+
+                <p>
+                    Send a short request describing what you need.
+                </p>
+
+            </div>
+
+            <div class="step">
+
+                <div class="dot">
+                    2
+                </div>
+
+                <h3>
+                    We review
+                </h3>
+
+                <p>
+                    We study the idea and reply with questions
+                    or a plan.
+                </p>
+
+            </div>
+
+            <div class="step">
+
+                <div class="dot">
+                    3
+                </div>
+
+                <h3>
+                    Agree the scope
+                </h3>
+
+                <p>
+                    Features, price and timeline are agreed
+                    before work starts.
+                </p>
+
+            </div>
+
+            <div class="step">
+
+                <div class="dot">
+                    4
+                </div>
+
+                <h3>
+                    Build and launch
+                </h3>
+
+                <p>
+                    You see progress as we build, then we ship it.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section
+        class="about"
+        id="about"
+        data-part>
+
+        <div class="sec-head">
+
+            <span class="sec-idx">04</span>
+
+            <span class="sec-name">
+                About
+            </span>
+
+            <span class="sec-rule"></span>
+
+            <span class="sec-count">
+                04 / 04
+            </span>
+
+        </div>
+
+        <div>
+
+            <h2
+                class="section-title"
+                style="margin:0;font-size:clamp(50px,6vw,90px);letter-spacing:-5px;line-height:.9">
+
+                Build small.<br>
+                Think big.
+
+            </h2>
+
+        </div>
+
+        <div class="about-text">
+
+            <p>
+                Novyra is an independent technology company focused
+                on building practical software, intelligent systems
+                and digital products.
+            </p>
+
+            <p>
+                We work across artificial intelligence, software
+                platforms, mobile applications, cybersecurity and fintech.
+            </p>
+
+            <p>
+                The goal is simple: understand the problem first,
+                then build technology that actually creates value.
+            </p>
+
+        </div>
+
+    </section>
+
+    <!-- BLACK CTA -->
+    <section
+        class="cta"
+        data-part>
+
+        <div class="wrap-in">
+
+            <div
+                class="section-label"
+                style="position:relative;z-index:2">
+
+                HAVE AN IDEA?
+
+            </div>
+
+            <h2>
+                Let's build<br>
+                what matters.
+            </h2>
+
+            <p>
+                Tell us what you're trying to build. We'll understand
+                the opportunity and figure out the right next step together.
+            </p>
+
+            <button
+                class="btn btn-dark"
+                onclick="showProjectPage()">
+
+                Start a Project →
+
+            </button>
+
+        </div>
+
+    </section>
+
+    <footer>
+
+        <div class="footer-logo">
+            NOVYRA
+        </div>
+
+        <div>
+            © 2026 Novyra. Building technology for what comes next.
+        </div>
+
+    </footer>
+
+</main>
+
+<main id="project-page">
+
+    <div id="project-form-view">
+
+        <div class="project-page-header">
+
+            <button
+                class="back-button"
+                onclick="showMain()">
+
+                ← Back to Novyra
+
+            </button>
+
+            <div class="section-label">
+                START A PROJECT
+            </div>
+
+            <h1>
+                Tell us what you're building.
+            </h1>
+
+            <p>
+                Give us a few details about your project.
+                This helps us understand the problem, the goal
+                and what you need.
+            </p>
+
+        </div>
+
+        <div class="form-container">
+
+            <form
+                id="project-form"
+                action="https://formspree.io/f/xdekwnbn"
+                method="POST">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label for="name">
+                            Your Name *
+                        </label>
+
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            placeholder="Your full name"
+                            required>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="email">
+                            Email *
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="you@example.com"
+                            required>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="organization">
+                            Organization
+                        </label>
+
+                        <input
+                            type="text"
+                            id="organization"
+                            name="organization"
+                            placeholder="Company, school, startup...">
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="project-name">
+                            Project Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="project-name"
+                            name="project_name"
+                            placeholder="What's the project called?">
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="project-type">
+                            Project Type *
+                        </label>
+
+                        <select
+                            id="project-type"
+                            name="project_type"
+                            required>
+
+                            <option value="">
+                                Select a service
+                            </option>
+
+                            <option>
+                                Artificial Intelligence
+                            </option>
+
+                            <option>
+                                LLM Integration
+                            </option>
+
+                            <option>
+                                Web Application
+                            </option>
+
+                            <option>
+                                Mobile Application
+                            </option>
+
+                            <option>
+                                Cybersecurity
+                            </option>
+
+                            <option>
+                                Fintech
+                            </option>
+
+                            <option>
+                                Other
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="budget">
+                            Estimated Budget
+                        </label>
+
+                        <select
+                            id="budget"
+                            name="budget">
+
+                            <option value="">
+                                Select if known
+                            </option>
+
+                            <option>
+                                Under $100
+                            </option>
+
+                            <option>
+                                $100 - $500
+                            </option>
+
+                            <option>
+                                $500 - $1,000
+                            </option>
+
+                            <option>
+                                $1,000+
+                            </option>
+
+                            <option>
+                                Not sure yet
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="deadline">
+                            Desired Deadline
+                        </label>
+
+                        <input
+                            type="text"
+                            id="deadline"
+                            name="deadline"
+                            placeholder="e.g. December 2026">
+
+                    </div>
+
+                    <div class="form-group full">
+
+                        <label for="description">
+                            Tell us about the project *
+                        </label>
+
+                        <textarea
+                            id="description"
+                            name="description"
+                            placeholder="What problem are you trying to solve? What should the software do?"
+                            required></textarea>
+
+                    </div>
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="btn btn-dark submit-btn"
+                    id="submit-button">
+
+                    Send Project Request →
+
+                </button>
+
+                <p class="form-note">
+                    This form is an initial project inquiry.
+                    Final scope, pricing, responsibilities and
+                    timelines will be agreed separately.
+                </p>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <div
+        id="success-view"
+        style="display:none">
+
+        <div
+            class="form-container"
+            style="max-width:700px;margin:80px auto;text-align:center">
+
+            <div
+                style="
+                    width:70px;
+                    height:70px;
+                    margin:0 auto 25px;
+                    border-radius:50%;
+                    background:rgba(184,255,53,.1);
+                    border:1px solid rgba(184,255,53,.3);
+                    color:#b8ff35;
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    font-size:32px;
+                    font-weight:800">
+
+                ✓
+
+            </div>
+
+            <div class="section-label">
+                REQUEST RECEIVED
+            </div>
+
+            <h1
+                style="
+                    font-size:clamp(40px,6vw,65px);
+                    letter-spacing:-3px;
+                    line-height:1;
+                    margin-bottom:20px">
+
+                Let's build something.
+
+            </h1>
+
+            <p
+                style="
+                    color:#8a8a8a;
+                    font-size:17px;
+                    max-width:550px;
+                    margin:0 auto 30px">
+
+                Thanks for reaching out to Novyra.
+                We've received your project details and will
+                review them before getting back to you.
+
+            </p>
+
+            <button
+                class="btn btn-dark"
+                onclick="showMain()">
+
+                ← Back to Novyra
+
+            </button>
+
+        </div>
+
+    </div>
+
+</main>
+
+<script>
+
+const mainSite =
+    document.getElementById("main-site");
+
+const projectPage =
+    document.getElementById("project-page");
+
+const navLinks =
+    document.getElementById("navLinks");
+
+
+function showMain(){
+
+    mainSite.style.display="block";
+
+    projectPage.style.display="none";
+
+    projectPage.classList.remove("show");
+
+    navLinks.classList.remove("active");
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+}
+
+
+function showProjectPage(){
+
+    mainSite.style.display="none";
+
+    projectPage.style.display="block";
+
+    projectPage.classList.remove("show");
+
+    void projectPage.offsetWidth;
+
+    projectPage.classList.add("show");
+
+    navLinks.classList.remove("active");
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+}
+
+
+function toggleMenu(){
+
+    navLinks.classList.toggle("active");
+
+}
+
+
+/* hero headline: word-by-word reveal */
+
+(function(){
+
+    const h =
+        document.getElementById("hero-title");
+
+    let n=0;
+
+
+    function wrap(node){
+
+        [...node.childNodes].forEach(c=>{
+
+            if(c.nodeType===3){
+
+                const f =
+                    document.createDocumentFragment();
+
+                c.textContent
+                    .split(/(\s+)/)
+                    .forEach(t=>{
+
+                        if(!t.trim()){
+
+                            f.appendChild(
+                                document.createTextNode(t)
+                            );
+
+                            return;
+
+                        }
+
+                        const w =
+                            document.createElement("span");
+
+                        w.className="w";
+
+                        const i =
+                            document.createElement("i");
+
+                        i.textContent=t;
+
+                        i.style.animationDelay =
+                            (.25+n++*.09)+"s";
+
+                        w.appendChild(i);
+
+                        f.appendChild(w);
+
+                    });
+
+                node.replaceChild(f,c);
+
+            }else if(c.nodeType===1){
+
+                wrap(c);
+
+            }
+
+        });
+
+    }
+
+
+    wrap(h);
+
+})();
+
+
+/* ticker: duplicate for seamless loop */
+
+const tk =
+    document.getElementById("ticker");
+
+tk.innerHTML += tk.innerHTML;
+
+
+/* 3D scene */
+
+const scene =
+    document.querySelector(".scene");
+
+
+document.addEventListener(
+    "mousemove",
+    e=>{
+
+        if(window.innerWidth<900 || !scene)
+            return;
+
+        scene.style.transform =
+            `translate(
+                ${(e.clientX/innerWidth-.5)*16}px,
+                ${(e.clientY/innerHeight-.5)*16}px
+            )`;
+
+    }
+);
+
+
+/* scroll progress + active nav */
+
+const bar =
+    document.getElementById("progress");
+
+const links =
+    [...navLinks.querySelectorAll(
+        "a[href^='#']:not(.nav-project-btn)"
+    )];
+
+
+function onScroll(){
+
+    const h =
+        document.documentElement;
+
+    bar.style.width =
+        (
+            h.scrollTop /
+            (h.scrollHeight-h.clientHeight || 1) *
+            100
+        )+"%";
+
+
+    let cur="";
+
+
+    document
+        .querySelectorAll("section[id]")
+        .forEach(s=>{
+
+            if(
+                s.getBoundingClientRect().top
+                < innerHeight*.4
+            ){
+
+                cur=s.id;
+
+            }
+
+        });
+
+
+    links.forEach(a=>{
+
+        a.classList.toggle(
+            "current",
+            a.getAttribute("href")==="#"+cur
+        );
+
+    });
+
+}
+
+
+addEventListener(
+    "scroll",
+    onScroll,
+    {passive:true}
+);
+
+onScroll();
+
+
+document.addEventListener(
+    "DOMContentLoaded",
+    ()=>{
+
+        /* reveals, section lines, process timeline */
+
+        const io =
+            new IntersectionObserver(
+                es=>es.forEach(en=>{
+
+                    if(!en.isIntersecting)
+                        return;
+
+                    const t=en.target;
+
+
+                    if(
+                        t.matches(
+                            ".service-card,.project-card,.about-text,.wrap-in,.section-title,.sec-head,.step"
+                        )
+                    ){
+
+                        t.classList.add("visible");
+
+                    }
+
+
+                    if(
+                        t.matches("section[data-part]")
+                    ){
+
+                        t.classList.add("line-on");
+
+                    }
+
+
+                    if(t.id==="steps"){
+
+                        t.classList.add("run");
+
+                    }
+
+
+                    io.unobserve(t);
+
+                }),
+                {
+                    threshold:.15,
+                    rootMargin:"0px 0px -60px 0px"
+                }
+            );
+
+
+        document
+            .querySelectorAll(
+                ".service-card,.project-card,.about-text,.wrap-in,.section-title,.sec-head,.step,section[data-part],#steps"
+            )
+            .forEach(el=>io.observe(el));
+
+
+        /* cursor glow */
+
+        if(
+            !matchMedia("(pointer: coarse)").matches
+        ){
+
+            const g =
+                document.createElement("div");
+
+            g.className="cursor-glow";
+
+            document.body.appendChild(g);
+
+
+            document.addEventListener(
+                "mousemove",
+                e=>{
+
+                    g.style.left =
+                        e.clientX+"px";
+
+                    g.style.top =
+                        e.clientY+"px";
+
+                }
+            );
+
+        }
+
+
+        /* magnetic buttons */
+
+        document
+            .querySelectorAll(".btn")
+            .forEach(b=>{
+
+                b.addEventListener(
+                    "mousemove",
+                    e=>{
+
+                        const r =
+                            b.getBoundingClientRect();
+
+                        b.style.transform =
+                            `translate(
+                                ${(e.clientX-r.left-r.width/2)*.07}px,
+                                ${(e.clientY-r.top-r.height/2)*.07}px
+                            )`;
+
+                    }
+                );
+
+
+                b.addEventListener(
+                    "mouseleave",
+                    ()=>b.style.transform=""
+                );
+
+            });
+
+
+        /* card tilt + spotlight */
+
+        document
+            .querySelectorAll(
+                ".service-card,.project-card"
+            )
+            .forEach(c=>{
+
+                c.addEventListener(
+                    "mousemove",
+                    e=>{
+
+                        const r =
+                            c.getBoundingClientRect();
+
+                        const x =
+                            e.clientX-r.left;
+
+                        const y =
+                            e.clientY-r.top;
+
+
+                        c.style.setProperty(
+                            "--mx",
+                            x+"px"
+                        );
+
+                        c.style.setProperty(
+                            "--my",
+                            y+"px"
+                        );
+
+
+                        if(
+                            c.classList.contains("visible")
+                        ){
+
+                            c.style.transform =
+                                `perspective(900px)
+                                rotateX(${((y/r.height)-.5)*-5}deg)
+                                rotateY(${((x/r.width)-.5)*5}deg)
+                                translateY(-9px)`;
+
+                        }
+
+                    }
+                );
+
+
+                c.addEventListener(
+                    "mouseleave",
+                    ()=>c.style.transform=""
+                );
+
+            });
+
+    }
+);
+
+
+/* form */
+
+const form =
+    document.getElementById("project-form");
+
+const fv =
+    document.getElementById("project-form-view");
+
+const sv =
+    document.getElementById("success-view");
+
+const sb =
+    document.getElementById("submit-button");
+
+
+form.addEventListener(
+    "submit",
+    async e=>{
+
+        e.preventDefault();
+
+        sb.disabled=true;
+
+        sb.textContent="Sending...";
+
+
+        try{
+
+            const r =
+                await fetch(
+                    form.action,
+                    {
+                        method:"POST",
+                        body:new FormData(form),
+                        headers:{
+                            Accept:"application/json"
+                        }
+                    }
+                );
+
+
+            if(r.ok){
+
+                form.reset();
+
+                fv.style.display="none";
+
+                sv.style.display="block";
+
+                sv.classList.add("show");
+
+                window.scrollTo({
+                    top:0,
+                    behavior:"smooth"
+                });
+
+                return;
+
+            }
+
+
+            alert(
+                "Something went wrong. Please try again."
+            );
+
+        }catch(_){
+
+            alert(
+                "Unable to send the request. Please check your connection and try again."
+            );
+
+        }
+
+
+        sb.disabled=false;
+
+        sb.textContent =
+            "Send Project Request →";
+
+    }
+);
+
+</script>
+
+</body>
+</html>
