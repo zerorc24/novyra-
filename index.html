@@ -175,7 +175,7 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:1
 .form-note{margin-top:18px;color:#666;font-size:12px;text-align:center}
 
 /* reveal */
-.rv{opacity:0;transform:translateY(40px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+.rv{opacity:1;transform:none;transition:opacity 1s var(--ease),transform 1s var(--ease)}
 .rv.visible{opacity:1;transform:none}
 .card.rv.visible{transition:transform .6s var(--ease),border-color .4s,opacity 1s}
 .d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}
@@ -556,149 +556,334 @@ footer .wrap{flex-direction:column;text-align:center}
     </div>
   </div>
 </main>
-
 <script>
-const mainSite=document.getElementById("main-site"),projectPage=document.getElementById("project-page"),navLinks=document.getElementById("navLinks");
-const fv=document.getElementById("project-form-view"),sv=document.getElementById("success-view");
-function swap(hide,show,after){
-  hide.style.transition="opacity .3s,transform .3s";hide.style.opacity=0;hide.style.transform="translateY(-14px)";
-  setTimeout(()=>{
-    hide.style.display="none";hide.style.opacity="";hide.style.transform="";hide.style.transition="";
-    show.style.display="block";show.style.opacity=0;show.style.transform="translateY(20px)";
-    if(after)after();
-    requestAnimationFrame(()=>requestAnimationFrame(()=>{
-      show.style.transition="opacity .7s var(--ease),transform .8s var(--ease)";show.style.opacity=1;show.style.transform="none";
-    }));
-  },300);
-}
-function showMain(keep){
-  navLinks.classList.remove("active");
-  if(mainSite.style.display!=="none"){ if(keep!==true)window.scrollTo({top:0,behavior:"smooth"}); return; }
-  projectPage.classList.remove("show");
-  swap(projectPage,mainSite,()=>{
-    const t=keep===true&&location.hash.length>1?document.querySelector(location.hash):null;
-    if(t)t.scrollIntoView({behavior:"instant"});else window.scrollTo({top:0,behavior:"instant"});
-  });
-}
-function showProjectPage(){
-  navLinks.classList.remove("active");
-  if(projectPage.style.display==="block")return;
-  swap(mainSite,projectPage,()=>{
-    fv.style.display="block";sv.style.display="none";
-    projectPage.classList.remove("show");void projectPage.offsetWidth;projectPage.classList.add("show");
-    window.scrollTo({top:0,behavior:"instant"});
-  });
-}
-function toggleMenu(){navLinks.classList.toggle("active")}
-document.getElementById("year").textContent=new Date().getFullYear();
-const tk=document.getElementById("ticker");tk.innerHTML+=tk.innerHTML;
+(() => {
+  const mainSite = document.getElementById("main-site");
+  const projectPage = document.getElementById("project-page");
+  const projectFormView = document.getElementById("project-form-view");
+  const successView = document.getElementById("success-view");
+  const form = document.getElementById("project-form");
+  const submitButton = document.getElementById("submit-button");
+  const navLinks = document.getElementById("navLinks");
+  const progress = document.getElementById("progress");
+  const steps = document.getElementById("steps");
+  const year = document.getElementById("year");
 
-const bar=document.getElementById("progress");
-const links=[...navLinks.querySelectorAll("a[href^='#']:not(.nav-project-btn)")];
-function onScroll(){
-  const h=document.documentElement;
-  bar.style.width=(h.scrollTop/((h.scrollHeight-h.clientHeight)||1)*100)+"%";
-  let cur="";
-  document.querySelectorAll("section[id]").forEach(s=>{if(s.getBoundingClientRect().top<innerHeight*.4)cur=s.id});
-  links.forEach(a=>a.classList.toggle("current",a.getAttribute("href")==="#"+cur));
-}
-addEventListener("scroll",onScroll,{passive:true});onScroll();
+  // -----------------------------
+  // Main page / project page
+  // -----------------------------
+  window.showProjectPage = function () {
+    if (!mainSite || !projectPage) return;
 
-const items=document.querySelectorAll(".rv,#steps");
-if("IntersectionObserver"in window){
-  const io=new IntersectionObserver(es=>es.forEach(en=>{
-    if(!en.isIntersecting)return;
-    en.target.classList.add(en.target.id==="steps"?"run":"visible");
-    io.unobserve(en.target);
-  }),{threshold:.12,rootMargin:"0px 0px -50px 0px"});
-  items.forEach(el=>io.observe(el));
-}else{items.forEach(el=>el.classList.add("visible","run"))}
+    mainSite.style.display = "none";
+    projectPage.style.display = "block";
+    projectPage.classList.add("show");
 
-if(!matchMedia("(pointer: coarse)").matches){
-  const g=document.createElement("div");g.className="cursor-glow";document.body.appendChild(g);
-  document.addEventListener("mousemove",e=>{g.style.left=e.clientX+"px";g.style.top=e.clientY+"px"});
-  document.querySelectorAll(".card").forEach(c=>c.addEventListener("mousemove",e=>{
-    const r=c.getBoundingClientRect();
-    c.style.setProperty("--mx",(e.clientX-r.left)+"px");c.style.setProperty("--my",(e.clientY-r.top)+"px");
-  }));
-}
+    if (successView) successView.style.display = "none";
+    if (projectFormView) projectFormView.style.display = "block";
 
+    if (navLinks) navLinks.classList.remove("active");
 
-/* split words */
-function splitWords(el,step,base){
-  let n=0;
-  (function walk(node){
-    [...node.childNodes].forEach(c=>{
-      if(c.nodeType===3){
-        const f=document.createDocumentFragment();
-        c.textContent.split(/(\s+)/).forEach(t=>{
-          if(!t)return;
-          if(!t.trim()){f.appendChild(document.createTextNode(t));return}
-          const w=document.createElement("span"),i=document.createElement("i");
-          w.className="w";i.textContent=t;i.style.transitionDelay=i.style.animationDelay=(base+n++*step)+"s";
-          w.appendChild(i);f.appendChild(w);
-        });
-        node.replaceChild(f,c);
-      }else if(c.nodeType===1)walk(c);
-    });
-  })(el);
-}
-splitWords(document.querySelector("h1.hl"),.09,.25);
-document.querySelectorAll(".title").forEach(t=>splitWords(t,.06,.1));
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    setTimeout(() => {
+      const firstInput = document.getElementById("name");
+      if (firstInput) firstInput.focus();
+    }, 350);
+  };
 
-/* count-up stats */
-const st=document.querySelector(".stats");
-if(st&&"IntersectionObserver"in window){
-  new IntersectionObserver((es,o)=>es.forEach(en=>{
-    if(!en.isIntersecting)return;o.disconnect();
-    st.querySelectorAll("[data-count]").forEach(b=>{
-      const to=+b.dataset.count,t0=performance.now();
-      (function tick(t){const k=Math.min((t-t0)/1500,1);b.textContent=Math.round(to*(1-Math.pow(1-k,3)));if(k<1)requestAnimationFrame(tick)})(t0);
-    });
-  }),{threshold:.4}).observe(st);
-}else if(st){st.querySelectorAll("[data-count]").forEach(b=>b.textContent=b.dataset.count)}
+  window.showMain = function (scrollToSection = false) {
+    if (!mainSite || !projectPage) return;
 
-/* FAQ accordion */
-document.querySelectorAll(".qa").forEach(q=>q.querySelector(".q").addEventListener("click",()=>{
-  const open=q.classList.contains("open");
-  document.querySelectorAll(".qa.open").forEach(o=>{o.classList.remove("open");o.querySelector(".q").setAttribute("aria-expanded","false")});
-  if(!open){q.classList.add("open");q.querySelector(".q").setAttribute("aria-expanded","true")}
-}));
+    projectPage.style.display = "none";
+    projectPage.classList.remove("show");
+    mainSite.style.display = "block";
 
-/* magnetic buttons, card tilt, aurora parallax */
-if(!matchMedia("(pointer: coarse)").matches&&!matchMedia("(prefers-reduced-motion: reduce)").matches){
-  document.querySelectorAll(".btn").forEach(b=>{
-    b.addEventListener("mousemove",e=>{const r=b.getBoundingClientRect();b.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.12}px,${(e.clientY-r.top-r.height/2)*.12}px)`});
-    b.addEventListener("mouseleave",()=>b.style.transform="");
-  });
-  document.querySelectorAll(".card").forEach(c=>{
-    c.addEventListener("mousemove",e=>{
-      const r=c.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
-      if(c.classList.contains("visible"))c.style.transform=`perspective(1000px) rotateX(${((y/r.height)-.5)*-4}deg) rotateY(${((x/r.width)-.5)*4}deg) translateY(-6px)`;
-    });
-    c.addEventListener("mouseleave",()=>c.style.transform="");
-  });
-  const au=document.querySelector(".aurora");
-  document.addEventListener("mousemove",e=>{if(au)au.style.transform=`translate(${(e.clientX/innerWidth-.5)*-40}px,${(e.clientY/innerHeight-.5)*-30}px)`});
-}
+    if (navLinks) navLinks.classList.remove("active");
 
-const form=document.getElementById("project-form"),sb=document.getElementById("submit-button");
-form.addEventListener("submit",async e=>{
-  e.preventDefault();sb.disabled=true;sb.textContent="Sending...";
-  try{
-    const db=(window.claude&&claude.use)?await claude.use("db"):null;
-    let ok=false;
-    if(db){const d=Object.fromEntries(new FormData(form));d.submittedAt=new Date().toISOString();
-      const u=await claude.use("user");const id=u?await u.id():null;if(id){await db.collection("requests").doc(id).set(d);ok=true}}
-    if(ok){
-      form.reset();fv.style.display="none";sv.style.display="block";sv.classList.add("show");
-      window.scrollTo({top:0,behavior:"smooth"});
-      sb.disabled=false;sb.textContent="Send project request →";return;
+    if (successView) successView.style.display = "none";
+    if (projectFormView) projectFormView.style.display = "block";
+
+    if (scrollToSection) {
+      setTimeout(() => {
+        const hash = window.location.hash;
+        const target = hash ? document.querySelector(hash) : null;
+        if (target) target.scrollIntoView({ behavior: "smooth" });
+      }, 50);
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
-    alert("Submissions are not available right now. Please try again later.");
-  }catch(_){alert("Unable to send the request. Please check your connection and try again.")}
-  sb.disabled=false;sb.textContent="Send project request →";
-});
+  };
+
+  // -----------------------------
+  // Mobile menu
+  // -----------------------------
+  window.toggleMenu = function () {
+    if (navLinks) navLinks.classList.toggle("active");
+  };
+
+  document.querySelectorAll(".nav-links a[href^='#']").forEach(link => {
+    link.addEventListener("click", () => {
+      if (navLinks) navLinks.classList.remove("active");
+    });
+  });
+
+  // -----------------------------
+  // Scroll progress
+  // -----------------------------
+  function updateProgress() {
+    if (!progress) return;
+
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    const maxScroll =
+      document.documentElement.scrollHeight - window.innerHeight;
+
+    const percent = maxScroll > 0 ? (scrollTop / maxScroll) * 100 : 0;
+    progress.style.width = percent + "%";
+  }
+
+  window.addEventListener("scroll", updateProgress, { passive: true });
+  updateProgress();
+
+  // -----------------------------
+  // Reveal animations
+  // -----------------------------
+  const revealItems = document.querySelectorAll(".rv");
+
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12 }
+    );
+
+    revealItems.forEach(item => observer.observe(item));
+  } else {
+    revealItems.forEach(item => item.classList.add("visible"));
+  }
+
+  // -----------------------------
+  // Process animation
+  // -----------------------------
+  if (steps && "IntersectionObserver" in window) {
+    const stepObserver = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            steps.classList.add("run");
+            stepObserver.unobserve(steps);
+          }
+        });
+      },
+      { threshold: 0.35 }
+    );
+
+    stepObserver.observe(steps);
+  }
+
+  // -----------------------------
+  // Stats counter
+  // -----------------------------
+  const counters = document.querySelectorAll("[data-count]");
+
+  function animateCounter(element) {
+    const target = Number(element.dataset.count || 0);
+    const duration = 1000;
+    const start = performance.now();
+
+    function tick(now) {
+      const progressValue = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progressValue, 3);
+      element.textContent = Math.round(target * eased);
+
+      if (progressValue < 1) {
+        requestAnimationFrame(tick);
+      }
+    }
+
+    requestAnimationFrame(tick);
+  }
+
+  if (counters.length && "IntersectionObserver" in window) {
+    const statsObserver = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            counters.forEach(animateCounter);
+            statsObserver.disconnect();
+          }
+        });
+      },
+      { threshold: 0.4 }
+    );
+
+    const stats = document.querySelector(".stats");
+    if (stats) statsObserver.observe(stats);
+  } else {
+    counters.forEach(counter => {
+      counter.textContent = counter.dataset.count || "0";
+    });
+  }
+
+  // -----------------------------
+  // FAQ accordion
+  // -----------------------------
+  document.querySelectorAll(".qa .q").forEach(button => {
+    button.addEventListener("click", () => {
+      const item = button.closest(".qa");
+      if (!item) return;
+
+      const isOpen = item.classList.contains("open");
+
+      document.querySelectorAll(".qa.open").forEach(openItem => {
+        openItem.classList.remove("open");
+        const openButton = openItem.querySelector(".q");
+        if (openButton) openButton.setAttribute("aria-expanded", "false");
+      });
+
+      if (!isOpen) {
+        item.classList.add("open");
+        button.setAttribute("aria-expanded", "true");
+      }
+    });
+  });
+
+  // -----------------------------
+  // Cursor glow
+  // -----------------------------
+  const glow = document.createElement("div");
+  glow.className = "cursor-glow";
+  document.body.appendChild(glow);
+
+  let glowX = -500;
+  let glowY = -500;
+  let mouseX = -500;
+  let mouseY = -500;
+
+  window.addEventListener("mousemove", event => {
+    mouseX = event.clientX;
+    mouseY = event.clientY;
+  });
+
+  function animateGlow() {
+    glowX += (mouseX - glowX) * 0.12;
+    glowY += (mouseY - glowY) * 0.12;
+    glow.style.left = glowX + "px";
+    glow.style.top = glowY + "px";
+    requestAnimationFrame(animateGlow);
+  }
+
+  animateGlow();
+
+  // -----------------------------
+  // Card mouse spotlight
+  // -----------------------------
+  document.querySelectorAll(".card").forEach(card => {
+    card.addEventListener("mousemove", event => {
+      const rect = card.getBoundingClientRect();
+      card.style.setProperty("--mx", event.clientX - rect.left + "px");
+      card.style.setProperty("--my", event.clientY - rect.top + "px");
+    });
+  });
+
+  // -----------------------------
+  // Gentle hero parallax
+  // -----------------------------
+  const aurora = document.querySelector(".aurora");
+
+  window.addEventListener(
+    "mousemove",
+    event => {
+      if (!aurora) return;
+
+      const x = (event.clientX / window.innerWidth - 0.5) * 14;
+      const y = (event.clientY / window.innerHeight - 0.5) * 10;
+
+      aurora.style.transform = `translate(${x}px, ${y}px)`;
+    },
+    { passive: true }
+  );
+
+  // -----------------------------
+  // Year
+  // -----------------------------
+  if (year) {
+    year.textContent = new Date().getFullYear();
+  }
+
+  // -----------------------------
+  // Project form -> Formspree
+  // -----------------------------
+  if (form && submitButton) {
+    form.addEventListener("submit", async event => {
+      event.preventDefault();
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      submitButton.disabled = true;
+      submitButton.textContent = "Sending...";
+
+      try {
+        const response = await fetch(form.action, {
+          method: "POST",
+          body: new FormData(form),
+          headers: {
+            Accept: "application/json"
+          }
+        });
+
+        let data = null;
+        try {
+          data = await response.json();
+        } catch (_) {
+          data = null;
+        }
+
+        if (!response.ok) {
+          if (data && Array.isArray(data.errors)) {
+            alert(
+              data.errors
+                .map(error => error.message)
+                .filter(Boolean)
+                .join("\n")
+            );
+          } else {
+            alert("Something went wrong while sending your request.");
+          }
+          return;
+        }
+
+        form.reset();
+
+        if (projectFormView) projectFormView.style.display = "none";
+        if (successView) {
+          successView.style.display = "block";
+          successView.classList.remove("show");
+          void successView.offsetWidth;
+          successView.classList.add("show");
+        }
+
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } catch (error) {
+        console.error("Form submission error:", error);
+        alert(
+          "Unable to send your request right now. Please check your internet connection and try again."
+        );
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = "Send project request →";
+      }
+    });
+  }
+})();
 </script>
 </body>
 </html>
